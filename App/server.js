@@ -2,7 +2,10 @@ const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
+
+const adminRoute = require('./routes/adminRoute.js');
+const userRoute = require('./routes/userRoute.js');
 
 // Use morgan middleware as a logger
 // "dev": <method> <path> <status_code> <time_response>
@@ -14,6 +17,11 @@ app.set("view engine", "ejs");
 
 // set up place for 'serving static files'. https://expressjs.com/en/starter/static-files.html
 app.use(express.static("static/"));
+
+
+app.get('/user',userRoute)
+app.get('/admin',adminRoute)
+
 
 app.get("/", (req, res) => {
   res.render("home", {
