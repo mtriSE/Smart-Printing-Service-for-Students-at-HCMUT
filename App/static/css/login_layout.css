@@ -1,24 +1,17 @@
-#header {
-    background-color: var(--blue);
-}
-
-#brand {
-    background-color: var(--dark-blue);
-}
-
-#brand a {
-    text-decoration: none;
-    color: white;
+#form-wrapper * {
+    font-family: Roboto;
 }
 
 #form-wrapper>form {
     box-shadow: 0px 0px 15px 10px rgba(0, 0, 0, 0.12);
+    width: 500px;
+    border-radius: 5%;
 }
 
 #form-wrapper h3 {
     color: var(--dark-blue);
     text-align: center;
-    font-family: Roboto;
+   
     font-size: 36px;
     font-style: normal;
     font-weight: 700;
@@ -39,7 +32,7 @@
 #form-wrapper a {
     border: none;
     background-color: var(--background-text-field);
-    text-align: start;
+    text-align: st;
 }
 
 
