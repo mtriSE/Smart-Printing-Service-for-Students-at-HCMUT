@@ -1,47 +1,55 @@
-
 const config = require('../config/auth.config.js');
-const accountController = require('./account.controller.js');
+const Account = require('../models/account.model.js');
+const bcrypt = require('bcrypt');
 
 var jwt = require('jsonwebtoken');
-var bcrypt = require('bcrypt');
 
-exports.signin = async (req, res, next) => {
-    const result = await accountController.findAccountWithBknetid(req.body.bknetid);
-    if (!result) {
-        return res.status(404).json({
-            message: `Not found user with ${req.body.bknetid}`,
-        })
-    } else {
 
-        const passwordIsValid = req.body.password === result.password;
+exports.signin = (req, res, next) => {
+    Account.findById(req.body.account_id, (err, data) => {
+        console.log(err);
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found account with id ${req.body.account_id}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving account with id " + req.body.account_id,
+                });
+            }
+        } else {
 
-        if (!passwordIsValid) {
-            return res.status(401).send({
-                accessToken: null,
-                message: "Invalid Password!"
+            const passwordIsValid = bcrypt.compareSync(req.body.password, data.password);
+
+            if (!passwordIsValid) {
+                return res.status(401).send({
+                    accessToken: null,
+                    message: "Invalid Password!"
+                });
+            }
+
+            const payload = {
+                bknetid: req.body.bknetid,
+                role: req.body.role
+            }
+
+            const token = jwt.sign(
+                payload,
+                config.secret,
+                {
+                    algorithm: 'HS256',
+                    allowInsecureKeySizes: true,
+                    expiresIn: 2 * 60 * 60, // 2 hours
+                }
+            );
+
+            res.status(200).send({
+                account_id: req.body.account_id,
+                role: req.body.role,
+                accessToken: token
             });
         }
+    });
 
-        const payload = {
-            bknetid: req.body.bknetid,
-            role: req.body.role
-        }
-
-        const token = jwt.sign(
-            payload,
-            config.secret,
-            {
-                algorithm: 'HS256',
-                allowInsecureKeySizes: true,
-                // expiresIn: 2*60*60, // 2 hours
-            }
-        );
-        
-        res.status(200).send({
-            bknetid: req.body.bknetid,
-            role: req.body.role,
-            accessToken: token
-        });
-
-    }
 }

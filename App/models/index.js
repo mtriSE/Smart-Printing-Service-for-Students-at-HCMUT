@@ -1,25 +1,15 @@
-const dbConfig = require('../config/db.config.js');
+const mysql = require('mysql');
+const config = require('../config/db.config.js');
 
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-    host: dbConfig.HOST,
-    dialect: dbConfig.dialect,
-    // operatorsAliases: false,
-
-    // pool: {
-    //     max: dbConfig.pool.max,
-    //     min: dbConfig.pool.min,
-    //     acquire: dbConfig.pool.acquire,
-    //     idle: dbConfig.pool.idle
-    // }
-
+const connection = mysql.createConnection({
+    host: config.HOST,
+    user: config.USER,
+    database: config.DB
 });
 
-const db = {};
+connection.connect(err => {
+    if (err) throw err;
+    console.log("Successfully connected to the database.");
+})
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
-
-db.accounts = require('./account.model.js')(sequelize, Sequelize);
-
-module.exports = db;
+module.exports = connection;
