@@ -5,8 +5,8 @@ const path = require("path");
 const app = express();
 const PORT = 3000;
 
-const adminRoute = require("./routes/adminRoute.js");
-const userRoute = require("./routes/userRoute.js");
+const adminRoute = require("./routes/admin.route.js");
+const userRoute = require("./routes/user.route.js");
 
 // Use morgan middleware as a logger
 // "dev": <method> <path> <status_code> <time_response>
@@ -24,7 +24,7 @@ app.set("view engine", "ejs");
 app.use(express.static("static/"));
 
 app.use("/user", userRoute);
-app.get("/admin", adminRoute);
+app.use("/admin", adminRoute);
 
 app.listen(PORT, () => {
   console.log(`App start to listen at http://localhost:${PORT}`);

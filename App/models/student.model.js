@@ -15,11 +15,10 @@ class StudentModel {
     );
   }
 
-  update_current_page_num(student_id, new_current_page, result) {
+  update_current_page_num(student_id, page_num, result) {
     con.query(
-      "UPDATE current_page SET current_page=? WHERE student_id=?",
-      new_current_page,
-      student_id,
+      "UPDATE student SET current_page=current_page+? WHERE student_id=?",
+      [page_num, student_id],
       function (err, current_page) {
         if (err) {
           result(null);

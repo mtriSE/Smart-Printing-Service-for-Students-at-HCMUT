@@ -1,27 +1,19 @@
-const configuration = require("../models/configurationModel");
-const history = require("../models/historyModel");
-const student = require("../models/studentModel");
+const configuration = require("../models/configuration.model");
+const history = require("../models/history.model");
+const student = require("../models/student.model");
 
 class ConfigurationController {
   check_valid_file(req, res) {
     var file_name = req.body.valid_file;
-    configuration.read_valid_file(file_name, function (data) {
-      if (data) {
-        if (data.length === 0) {
+    configuration.read_valid_file(file_name, function (valid_file) {
+      if (valid_file) {
+        if (valid_file.length === 0) {
           res.json({ isValidFile: false });
         } else {
           res.json({ isValidFile: true });
         }
       } else {
         res.status(500).json({ error: "cannot get valid file" });
-      }
-    });
-  }
-
-  get_current_page_num(student_id) {
-    student.read_current_page_num(student_id, function (data) {
-      if (data) {
-        return data;
       }
     });
   }
@@ -78,46 +70,51 @@ class ConfigurationController {
     }
     page_count *= Number(copies_num);
 
+    let current_page;
     //check page_count < current_page
-    var current_page = this.get_current_page_num(student_id);
+    student.read_current_page_num(student_id, function (cur_page) {
+      if (cur_page) {
+        global.current_page = cur_page[0]["current_page"];
+      } else {
+        res.status(500).json({ error: "cannot get current page num" });
+      }
+    });
 
-    res.json({ message: current_page });
+    res.json(current_page);
 
     // if (page_count > current_page) {
     //   res.json({ message: "current to print > current page" });
     // } else {
     //   //update current page
-    //   current_page -= page_count;
     //   student.update_current_page_num(
     //     student_id,
-    //     current_page,
-    //     function (data) {
-    //       if (!data) {
+    //     -page_count,
+    //     function (result) {
+    //       if (!result) {
     //         res.status(500).json({ error: "cannot update current page" });
     //       }
     //     }
     //   );
 
+    //   var printing_date = new Date();
+
     //   var start_time = new Date();
     //   start_time.setSeconds(start_time.getSeconds() - page_count);
     //   var end_time = new Date();
 
-    //   // create history
-    //   history.create_new_history(
+    //   //create history
+    //   history.create_printing_history(
     //     student_id,
     //     printer_id,
     //     file_name,
     //     start_time,
     //     end_time,
-    //     page_num,
+    //     page_count,
     //     page_size,
-    //     function (data) {
-    //       if (data) {
-    //         if (data.length === 0) {
-    //           res.json({ isValidFile: false });
-    //         } else {
-    //           res.json({ isValidFile: true });
-    //         }
+    //     printing_date,
+    //     function (result) {
+    //       if (result) {
+    //         res.json({ message: "printing completely" });
     //       } else {
     //         res.status(500).json({ error: "cannot create new history" });
     //       }
