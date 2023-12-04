@@ -16,10 +16,10 @@ router.post("/manage/delete", (req, res) => {});
 router.post("/manage/enable", (req, res) => {});
 router.post("/manage/disable", (req, res) => {});
 
-// configure system
-router.post("/configuration", (req, res) => {});
+// configure system ->
+router.post("/configuration", configurationController.config);
 
-// view printing history
+// view printing history -> almost complete
 router.get(
   "/history/:student_id/:printer_id/:start_date/:end_date",
   historyController.get_printing_history

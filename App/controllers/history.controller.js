@@ -5,6 +5,7 @@ class HistoryController {
     if (req.params.student_id) {
       var student_id = req.params.student_id;
     } else {
+      // process token
       var student_id = "2114988";
     }
 

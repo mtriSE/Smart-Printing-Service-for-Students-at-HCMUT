@@ -5,6 +5,7 @@ class PageController {
     if (req.body.student_id) {
       var student_id = req.body.student_id;
     } else {
+      //process token
       var student_id = "2114988";
     }
     var page_num = req.body.page_num;
@@ -19,6 +20,19 @@ class PageController {
         }
       }
     );
+  }
+
+  get_page_num(req, res) {
+    //process token
+    var student_id = "2114988";
+
+    student.read_current_page_num(student_id, function (page_num) {
+      if (page_num) {
+        res.json(page_num);
+      } else {
+        res.status(500).json({ error: "cannot read page num" });
+      }
+    });
   }
 }
 

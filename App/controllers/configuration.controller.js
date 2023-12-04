@@ -2,20 +2,29 @@ const configuration = require("../models/configuration.model");
 const history = require("../models/history.model");
 const student = require("../models/student.model");
 
+const { readFileSync } = require("fs");
+const countPages = require("page-count");
+
 class ConfigurationController {
-  check_valid_file(req, res) {
-    var file_name = req.body.valid_file;
-    configuration.read_valid_file(file_name, function (valid_file) {
-      if (valid_file) {
-        if (valid_file.length === 0) {
-          res.json({ isValidFile: false });
-        } else {
-          res.json({ isValidFile: true });
-        }
-      } else {
-        res.status(500).json({ error: "cannot get valid file" });
-      }
-    });
+  async check_valid_file(req, res) {
+    var file = req.file;
+    res.json(file);
+    // const docxBuffer = readFileSync(file.path);
+    // const pages = await countPages(docxBuffer, "pdf");
+
+    // res.json({ pages });
+
+    // configuration.read_valid_file(file, function (valid_file) {
+    //   if (valid_file) {
+    //     if (valid_file.length === 0) {
+    //       res.json({ isValidFile: false });
+    //     } else {
+    //       res.json({ isValidFile: true });
+    //     }
+    //   } else {
+    //     res.status(500).json({ error: "cannot get valid file" });
+    //   }
+    // });
   }
 
   configure_printing(req, res) {
@@ -122,6 +131,8 @@ class ConfigurationController {
     //   );
     // }
   }
+
+  config(req, res) {}
 }
 
 module.exports = new ConfigurationController();
