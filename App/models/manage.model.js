@@ -15,69 +15,70 @@ class ManageModel {
     );
   }
 
-// Adding printer
-  add_printer(newPrinter,result) {
-    db.query("INSERT INTO printer SET ?", newPrinter, (err, res) => {
+// Adding printer (fixed)
+  add_printer(printer_id, printer_name, printer_status, printer_facility, printer_building, printer_floor, result) {
+    db.query("INSERT INTO printer(printer_id, name, status, cs, toa, tang) VALUES (?,?,?,?,?,?)", [printer_id,printer_name,printer_status,printer_facility,printer_building,printer_floor], (err, res) => {
         if (err) {
-            console.log("Error when adding printer: ", err);
-            result(null);
-            return;
+          console.log("Error when adding printer: ", err);
+          result(null);
+          return;
         }
-        console.log("Added printer :", { id: res.printer_id, ...newPrinter });
+        console.log("Added printer :"+printer_id);
         result(res);
     });
   }
 
 // Deleting printer
-  delete_printer(printerID,result) {
-    db.query(`DELETE FROM printer WHERE printer_id = '${printerID}'`, (err, res) => {
+  delete_printer(printer_id,result) {
+    db.query(`DELETE FROM printer WHERE printer_id = '${printer_id}'`, (err, res) => {
         if (err) {
-            console.log("Error when deleting printer: ", err);
-            result(null);
-            return;
+          console.log("Error when deleting printer: ", err);
+          result(null);
+          return;
         }
-        console.log("Deleted printer with ID:"+printerID.toString());
+        console.log("Deleted printer with ID:"+printer_id);
         result(res);
     });
   }
 
 // Enable printer
-  enable_printer(printerID,result) {
-    db.query(`UPDATE printer SET status = 1 WHERE printer_id = '${printerID}'`, (err, res) => {
+  enable_printer(printer_id,result) {
+    db.query(`UPDATE printer SET status = 1 WHERE printer_id = '${printer_id}'`, (err, res) => {
         if (err) {
-            console.log("Error when enabling printer: ", err);
-            result(null);
-            return;
+          console.log("Error when enabling printer: ", err);
+          result(null);
+          return;
         }
-        console.log("Enabled printer with ID:"+printerID.toString());
+        console.log("Enabled printer with ID:"+printer_id);
         result(res);
     });
   }
 
 // Disable printer
-  disable_printer(printerID,result) {
-    db.query(`UPDATE printer SET status = 0 WHERE printer_id = '${printerID}'`, (err, res) => {
+  disable_printer(printer_id,result) {
+    db.query(`UPDATE printer SET status = 0 WHERE printer_id = '${printer_id}'`, (err, res) => {
         if (err) {
-            console.log("Error when disabling printer: ", err);
-            result(null);
-            return;
+          console.log("Error when disabling printer: ", err);
+          result(null);
+          return;
         }
-        console.log("Disabled printer with ID:"+printerID.toString());
+        console.log("Disabled printer with ID:"+printer_id);
         result(res);
     });
   }
 
 // Update printer
-  update_printer(newPrinter,result) {
-    db.query("UPDATE printer SET ? WHERE ?", [newPrinter, newPrinter.printer_id], (err, res) => {
+  update_printer(printer_id, printer_name, printer_facility, printer_building, printer_floor, result) {
+    db.query("UPDATE printer SET name = ?, cs = ?, toa = ?, tang = ? WHERE printer_id = ?", [printer_name,printer_facility,printer_building,printer_floor,printer_id], (err, res) => {
         if (err) {
-            console.log("Error when updating printer: ", err);
-            result(null);
-            return;
+          console.log("Error when updating printer: ", err);
+          result(null);
+          return;
         }
-        console.log("Updated printer :", { id: res.printer_id, ...newPrinter });
+        console.log("Updated printer :"+printer_id);
         result(res);
     });
   }
+
 }
 module.exports = new ManageModel();
