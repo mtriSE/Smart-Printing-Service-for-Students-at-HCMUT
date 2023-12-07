@@ -29,7 +29,7 @@ class ManageModel {
   }
 
 // Deleting printer
-  add_printer(printerID,result) {
+  delete_printer(printerID,result) {
     db.query(`DELETE FROM printer WHERE printer_id = '${printerID}'`, (err, res) => {
         if (err) {
             console.log("Error when deleting printer: ", err);
