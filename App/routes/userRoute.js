@@ -1,5 +1,5 @@
 const express = require("express");
-const multer = require("multer");
+// const multer = require("multer");
 const printingController = require("../controllers/printing.controller");
 const configurationController = require("../controllers/configuration.controller");
 const pageController = require("../controllers/page.controller");
@@ -7,23 +7,19 @@ const historyController = require("../controllers/history.controller");
 
 const router = express.Router();
 
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "../uploads");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
-
-var upload = multer({ storage: storage });
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage: storage });
 
 //print a document
-router.post("/printing/upload", upload.single("file"), (req, res) => {
-  // console.log(req.file);
-  res.send(req.file);
-});
 router.get("/printing", printingController.get_enabled_printer_list);
+
+// router.post("/printing/upload", (req, res) => {
+//   if (req.file) {
+//     res.send(req.file);
+//   } else {
+//     res.status(400).send("File upload failed");
+//   }
+// });
 
 router.post(
   "/printing/configuration",

@@ -17,7 +17,8 @@ router.post("/manage/enable", (req, res) => {});
 router.post("/manage/disable", (req, res) => {});
 
 // configure system ->
-router.get("/configuration", configurationController.config);
+router.get("/configuration", configurationController.get_configuration);
+router.post("/configuration", configurationController.set_configuration);
 
 // view printing history -> almost complete
 router.get(
