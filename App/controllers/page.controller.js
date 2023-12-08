@@ -6,7 +6,7 @@ class PageController {
       var student_id = req.body.student_id;
     } else {
       //process token
-      var student_id = "2114913";
+      var student_id = req.bknetid.split("A")[1];
     }
     var page_num = req.body.page_num;
     student.update_current_page_num(
@@ -24,7 +24,7 @@ class PageController {
 
   get_page_num(req, res) {
     //process token
-    var student_id = "2114988";
+    const student_id = req.bknetid.split("A")[1];
 
     student.read_current_page_num(student_id, function (page_num) {
       if (page_num) {
