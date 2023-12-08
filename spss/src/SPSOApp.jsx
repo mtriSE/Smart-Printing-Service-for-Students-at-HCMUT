@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Link, Routes, Route } from "react-router-dom";
 import NavBar from "src/components/navbar/NavBar";
 import SideBar from "src/components/sidebar/SideBar";
-import HomePage from "src/pages/general/HomePage";
-import AddPrinterPage from "src/pages/spso/AddPrinterPage";
-import HistoryPageSPSO from "src/pages/spso/HistoryPageSPSO";
-import PrintersPage from "src/pages/spso/PrintersPage";
+import HomePage from "src/pages/general/home/HomePage";
+import AddPrinterPage from "src/pages/spso/management/AddPrinterPage";
+import HistoryPageSPSO from "src/pages/spso/history/HistoryPageSPSO";
+import PrintersPage from "src/pages/spso/management/PrintersPage";
 import ReportPage from "src/pages/spso/ReportPage";
-import SystemConfigPage from "src/pages/spso/SystemConfigPage";
+import SystemConfigPage from "src/pages/spso/sysconfig/SystemConfigPage";
 
 function SPSOApp() {
   return (
