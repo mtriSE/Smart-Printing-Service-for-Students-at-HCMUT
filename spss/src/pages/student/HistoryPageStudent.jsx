@@ -25,64 +25,7 @@ const HistoryRecord = ({
 const HistoryPageStudent = () => {
   // TODO: Fetch API to get history records
   const [records, setRecords] = useState([]);
-  // const records = [
-  //   {
-  // studentId: "2115302",
-  // printerId: "Printer1",
-  // fileName: "Printed File Name 1",
-  // pageCount: 1234,
-  // date: "Print Date",
-  // time: "Print Time",
-  //   },
-  //   {
-  //     studentId: "2115303",
-  //     printerId: "Printer2",
-  //     fileName: "Printed File Name 2",
-  //     pageCount: 1234,
-  //     date: "Print Date",
-  //     time: "Print Time",
-  //   },
-  //   {
-  //     studentId: "2115304",
-  //     printerId: "Printer3",
-  //     fileName: "Printed File Name 3",
-  //     pageCount: 123,
-  //     date: "Print Date",
-  //     time: "Print Time",
-  //   },
-  //   {
-  //     studentId: "2115305",
-  //     printerId: "Printer4",
-  //     fileName: "Printed File Name 4",
-  //     pageCount: 123,
-  //     date: "Print Date",
-  //     time: "Print Time",
-  //   },
-  //   {
-  //     studentId: "2115306",
-  //     printerId: "Printer5",
-  //     fileName: "Printed File Name 5",
-  //     pageCount: 123,
-  //     date: "Print Date",
-  //     time: "Print Time",
-  //   },
-  //   {
-  //     studentId: "2115307",
-  //     printerId: "Printer6",
-  //     fileName: "Printed File Name 6",
-  //     pageCount: 123,
-  //     date: "Print Date",
-  //     time: "Print Time",
-  //   },
-  //   {
-  //     studentId: "2115308",
-  //     printerId: "Printer7",
-  //     fileName: "Printed File Name 7",
-  //     pageCount: 123,
-  //     date: "Print Date",
-  //     time: "Print Time",
-  //   },
-  // ];
+  
 
   useEffect(() => {
     axios
