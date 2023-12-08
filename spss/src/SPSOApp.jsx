@@ -6,7 +6,6 @@ import HomePage from "src/pages/general/home/HomePage";
 import AddPrinterPage from "src/pages/spso/management/AddPrinterPage";
 import HistoryPageSPSO from "src/pages/spso/history/HistoryPageSPSO";
 import PrintersPage from "src/pages/spso/management/PrintersPage";
-import ReportPage from "src/pages/spso/ReportPage";
 import SystemConfigPage from "src/pages/spso/sysconfig/SystemConfigPage";
 
 function SPSOApp() {
@@ -21,7 +20,6 @@ function SPSOApp() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/config" element={<SystemConfigPage />} />
-            <Route path="/reports" element={<ReportPage />} />
             <Route path="/manage" element={<PrintersPage />} />
             <Route path="/manage/addPrinter" element={<AddPrinterPage />} />
             <Route path="/historySPSO" element={<HistoryPageSPSO />} />

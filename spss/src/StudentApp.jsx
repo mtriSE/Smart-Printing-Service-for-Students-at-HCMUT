@@ -10,6 +10,7 @@ import PrintPage from "src/pages/student/printing/PrintPage";
 import SettingsPage from "src/pages/student/printing/SettingsPage";
 import UploadPage from "src/pages/student/printing/UploadPage";
 import HistoryPageStudent from "src/pages/student/history/HistoryPageStudent";
+import Success from "src/pages/student/buying/Success";
 
 function StudentApp() {
   return (
@@ -28,6 +29,7 @@ function StudentApp() {
             <Route path="/buy" element={<Buy />} />
             <Route path="/buy/buyPage" element={<BuyPage />} />
             <Route path="/buy/giftPage" element={<GiftPage />} />
+            <Route path="/buy/success" element={<Success />} />
             <Route path="/historyStudent" element={<HistoryPageStudent />} />
           </Routes>
           <div className="flex h-20 w-full flex-shrink-0 flex-col justify-start self-end border-t border-mygray bg-white pl-4 text-center">

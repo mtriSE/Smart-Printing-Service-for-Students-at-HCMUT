@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Button = ({ to, text, type }) => {
+const Button = ({ to, text, type, handleClick }) => {
   const bgColor = {
     confirm: "bg-myblue",
     cancel: "bg-myred",
@@ -10,15 +10,30 @@ const Button = ({ to, text, type }) => {
     <Link
       to={to}
       className={`rounded-lg px-8 py-2 text-2xl text-white ${bgColor[type]}`}
+      onClick={handleClick}
     >
       {text}
     </Link>
   );
 };
 
-// TODO: Add Route for buttons, handle data from input field
 const BuyPage = () => {
   const [pages, setPages] = useState(0);
+
+  const handleClick = () => {
+    fetch("http://localhost:3000/user/page/buy", {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        page_num: Number(pages),
+      }),
+    });
+  };
+
   return (
     <div className="flex h-full w-full items-center justify-center bg-light-mygray">
       <form className="flex h-2/5 w-2/5 flex-col rounded-2xl bg-white">
@@ -55,9 +70,13 @@ const BuyPage = () => {
         </div>
         {/* Buttons */}
         <div className="my-4 flex justify-evenly">
-          {/* TODO: Add route*/}
-          <Button to={"#"} text={"Xác nhận"} type={"confirm"} />
-          <Button to={"./.."} text={"Quay lại"} type={"cancel"} />
+          <Button
+            to={"/buy/success"}
+            text={"Xác nhận"}
+            type={"confirm"}
+            handleClick={handleClick}
+          />
+          <Button to={"/buy"} text={"Quay lại"} type={"cancel"} />
         </div>
       </form>
     </div>
