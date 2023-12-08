@@ -34,6 +34,10 @@ router.post("/configuration/add", configurationController.addConfig)
 // view printing history 
 // getAll history
 router.get("/history/all", historyController.getAll_printing_history);
+
+// Get History with filter condition
+router.post("/history/query", historyController.get_printing_history);
+
 // get history from studentId
 router.get(
   "/history/student/:studentid",

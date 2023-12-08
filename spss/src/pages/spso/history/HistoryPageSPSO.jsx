@@ -1,9 +1,17 @@
 import { Datepicker } from "flowbite-react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-const HistoryRecord = ({ studentId, printerId, fileName, pageCount, date, startTime, endTime }) => {
+const HistoryRecord = ({
+  studentId,
+  printerId,
+  fileName,
+  pageCount,
+  date,
+  startTime,
+  endTime,
+}) => {
   return (
-    <div className="flex justify-between border py-2 border-mygray border-t-0 border-l-0">
+    <div className="flex justify-between border border-l-0 border-t-0 border-mygray py-2">
       <div className="basis-1/12 py-1 text-center">{studentId}</div>
       <div className="basis-1/12 py-1 text-center">{printerId}</div>
       <div className="flex-grow basis-1/12 py-1 text-center">{fileName}</div>
@@ -16,65 +24,22 @@ const HistoryRecord = ({ studentId, printerId, fileName, pageCount, date, startT
 };
 
 const HistoryPageSPSO = () => {
-  // TODO: Fetch API to get history records
-  const records = [
-    {
-      studentId: "2115302",
-      printerId: "Printer1",
-      fileName: "Printed File Name 1",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115303",
-      printerId: "Printer2",
-      fileName: "Printed File Name 2",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115304",
-      printerId: "Printer3",
-      fileName: "Printed File Name 3",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115305",
-      printerId: "Printer4",
-      fileName: "Printed File Name 4",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115306",
-      printerId: "Printer5",
-      fileName: "Printed File Name 5",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115307",
-      printerId: "Printer6",
-      fileName: "Printed File Name 6",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115308",
-      printerId: "Printer7",
-      fileName: "Printed File Name 7",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-  ];
+  const [records, setRecords] = useState([]);
+  const [data, setData] = useState({
+    student_id: null,
+    printer_id: null,
+    from_day: null,
+    to_day: null,
+  });
+
+  useEffect(() => {
+    fetch("http://localhost:3000/admin/history/all", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((json) => setRecords(json));
+  }, []);
 
   // TODO: Handle filter and search????
   return (
@@ -88,7 +53,7 @@ const HistoryPageSPSO = () => {
           <div className="basis-1/12 text-center">Tìm kiếm</div>
         </div>
         <form className="flex w-full items-center justify-between bg-light-mygray py-1 text-lg">
-          {/* Filter Type */}
+          {/* Printer ID Input */}
           <div className="basis-3/12 text-center">
             <input
               className="w-3/5 border border-mygray text-center"
@@ -96,10 +61,18 @@ const HistoryPageSPSO = () => {
               name="studentId"
               id="studentId"
               placeholder="ID Máy in"
+              onChange={(e) =>
+                setData((prev) => {
+                  return {
+                    ...prev,
+                    printer_id: e.target.value,
+                  };
+                })
+              }
             />
           </div>
 
-          {/* ID Input Field */}
+          {/* Student ID Input */}
           <div className="basis-3/12 text-center">
             <input
               className="w-3/5 border border-mygray text-center"
@@ -107,6 +80,14 @@ const HistoryPageSPSO = () => {
               name="printerId"
               id="printerId"
               placeholder="Mã số sinh viên"
+              onChange={(e) =>
+                setData((prev) => {
+                  return {
+                    ...prev,
+                    student_id: e.target.value,
+                  };
+                })
+              }
             />
           </div>
 
@@ -116,13 +97,37 @@ const HistoryPageSPSO = () => {
             <Datepicker
               id="start-date"
               title="Ngày bắt đầu"
-              onSelectedDateChanged={(date) => console.log(date)}
+              onSelectedDateChanged={(date) => {
+                const day = date.getDate();
+                const month = date.getMonth() + 1;
+                const year = date.getFullYear();
+                const fromDate = year + "-" + month + "-" + day;
+                console.log(`From Date: ${fromDate}`);
+                setData((prev) => {
+                  return {
+                    ...prev,
+                    from_day: fromDate,
+                  };
+                });
+              }}
             />
             <div>to</div>
             <Datepicker
               id="end-date"
               title="Ngày kết thúc"
-              onSelectedDateChanged={(date) => console.log(date)}
+              onSelectedDateChanged={(date) => {
+                const day = date.getDate();
+                const month = date.getMonth() + 1;
+                const year = date.getFullYear();
+                const toDate = year + "-" + month + "-" + day;
+                console.log(`To Date: ${toDate}`);
+                setData((prev) => {
+                  return {
+                    ...prev,
+                    to_day: toDate,
+                  };
+                });
+              }}
             />
           </div>
 
@@ -131,7 +136,21 @@ const HistoryPageSPSO = () => {
             <button
               className="my-1 rounded-lg bg-myblue px-6 py-1 text-white hover:bg-dark-myblue"
               type="submit"
-              onClick={(e) => e.preventDefault()}
+              onClick={(e) => {
+                console.log(JSON.stringify(data))
+                fetch("http://localhost:3000/admin/history/query", {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(data),
+                })
+                  .then((response) => response.json())
+                  .then((json) => setRecords(json));
+                e.preventDefault();
+              }}
             >
               Find
             </button>
@@ -173,13 +192,13 @@ const HistoryPageSPSO = () => {
           {records.map((record, index) => (
             <HistoryRecord
               key={index}
-              studentId={record.studentId}
-              printerId={record.printerId}
-              fileName={record.fileName}
-              date={record.date}
-              startTime={record.time}
-              endTime={record.time}
-              pageCount={record.pageCount}
+              studentId={record.student_id}
+              printerId={record.printer_id}
+              fileName={record.file_name}
+              date={record.printing_date}
+              startTime={record.start_time}
+              endTime={record.end_time}
+              pageCount={record.numOfPage}
             />
           ))}
         </div>

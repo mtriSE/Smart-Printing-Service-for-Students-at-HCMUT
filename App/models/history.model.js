@@ -82,6 +82,7 @@ class HistoryModel {
       }
     }
   }
+
   // ptho1504
   create_printing_history(
     student_id,
@@ -114,7 +115,7 @@ class HistoryModel {
         }
       }
     );
-  }
+    }
   getAll(result) {
     const sql = "SELECT * from history";
     con.query(sql, (err, res) => {
@@ -184,7 +185,8 @@ class HistoryModel {
       if (err) {
         result(null);
       } else {
-        // console.log(studentid,from,to);
+        // console.log(studentid, from, to);
+        // console.log(res);
         result(res);
       }
     });

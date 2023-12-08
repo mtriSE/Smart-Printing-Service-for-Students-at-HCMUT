@@ -2,12 +2,10 @@ const history = require("../models/history.model");
 
 class HistoryController {
   get_printing_history(req, res) {
-    if (req.params.student_id) {
-      var student_id = req.params.student_id;
-    }
-    var printer_id = req.params.printer_id;
-    var start_date = req.params.start_date;
-    var end_date = req.params.end_date;
+    var student_id = req.body.student_id;
+    var printer_id = req.body.printer_id;
+    var start_date = req.body.start_date;
+    var end_date = req.body.end_date;
     history.read_printing_history(
       student_id,
       printer_id,
@@ -15,6 +13,9 @@ class HistoryController {
       end_date,
       function (printing_history) {
         if (printing_history) {
+          printing_history.map((e) =>
+              (e.printing_date = e.printing_date.toISOString().split("T")[0])
+          );
           res.json(printing_history);
         } else {
           res.status(500).json({ error: "cannot get printing history" });
@@ -22,9 +23,13 @@ class HistoryController {
       }
     );
   }
+  
   getAll_printing_history(req, res) {
     history.getAll(function (result) {
       if (result) {
+        result.map(
+          (e) => (e.printing_date = e.printing_date.toISOString().split("T")[0])
+        );
         res.json(result);
       } else {
         res.status(500).json({ error: "can not get all printing history" });
@@ -97,20 +102,26 @@ class HistoryController {
     const studentid = req.bknetid.split("A")[1];
     history.getHistoryByTimefromStudent(studentid, data, (result) => {
       if (result) {
-        console.log(result);
-        return;
+        result.map(
+          (e) => (e.printing_date = e.printing_date.toISOString().split("T")[0])
+        );
         res.json(result);
       } else {
         res.status(500).json({ error: "No found Printer" });
       }
     });
   }
+
   getMyHistory(req, res) {
     const studentid = req.bknetid.split("A")[1];
+    console.log(req);
     if (studentid) {
       history.getByStudentId(studentid, (result) => {
         if (result) {
-          console.log(result);
+          result.map(
+            (e) =>
+              (e.printing_date = e.printing_date.toISOString().split("T")[0])
+          );
           res.json(result);
         } else {
           res.status(500).json({ error: "No found Student" });
@@ -129,7 +140,7 @@ class HistoryController {
     if (studentid) {
       history.getHistoryByTimefromStudent(studentid, data, (result) => {
         if (result) {
-          console.log(result);
+          // console.log(result);
           res.json(result);
         } else {
           res.status(500).json({ error: "No found Printer" });
