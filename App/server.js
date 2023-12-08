@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const multer = require("multer");
+const cors = requier('cors');
 const app = express();
 
 const adminRoute = require("./routes/adminRoute.js");
@@ -9,7 +10,11 @@ const userRoute = require("./routes/userRoute.js");
 const signin = require("./routes/authAPI/login.js");
 
 const PORT = 3000;
-
+app.use(cors({
+  origin: ["http://localhost:5173"],
+  method: ['POST','GET','PUT'],
+  credentials: true,
+}))
 // Get database sequelize
 const db = require("./models/index.js");
 

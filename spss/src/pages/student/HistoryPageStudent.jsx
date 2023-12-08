@@ -1,6 +1,7 @@
 import { Datepicker } from "flowbite-react";
+import { useEffect, useState } from "react";
 import React from "react";
-
+import axios from "axios";
 const HistoryRecord = ({
   printerId,
   fileName,
@@ -23,65 +24,81 @@ const HistoryRecord = ({
 
 const HistoryPageStudent = () => {
   // TODO: Fetch API to get history records
-  const records = [
-    {
-      studentId: "2115302",
-      printerId: "Printer1",
-      fileName: "Printed File Name 1",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115303",
-      printerId: "Printer2",
-      fileName: "Printed File Name 2",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115304",
-      printerId: "Printer3",
-      fileName: "Printed File Name 3",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115305",
-      printerId: "Printer4",
-      fileName: "Printed File Name 4",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115306",
-      printerId: "Printer5",
-      fileName: "Printed File Name 5",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115307",
-      printerId: "Printer6",
-      fileName: "Printed File Name 6",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115308",
-      printerId: "Printer7",
-      fileName: "Printed File Name 7",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-  ];
+  const [records, setRecords] = useState([]);
+  // const records = [
+  //   {
+  // studentId: "2115302",
+  // printerId: "Printer1",
+  // fileName: "Printed File Name 1",
+  // pageCount: 1234,
+  // date: "Print Date",
+  // time: "Print Time",
+  //   },
+  //   {
+  //     studentId: "2115303",
+  //     printerId: "Printer2",
+  //     fileName: "Printed File Name 2",
+  //     pageCount: 1234,
+  //     date: "Print Date",
+  //     time: "Print Time",
+  //   },
+  //   {
+  //     studentId: "2115304",
+  //     printerId: "Printer3",
+  //     fileName: "Printed File Name 3",
+  //     pageCount: 123,
+  //     date: "Print Date",
+  //     time: "Print Time",
+  //   },
+  //   {
+  //     studentId: "2115305",
+  //     printerId: "Printer4",
+  //     fileName: "Printed File Name 4",
+  //     pageCount: 123,
+  //     date: "Print Date",
+  //     time: "Print Time",
+  //   },
+  //   {
+  //     studentId: "2115306",
+  //     printerId: "Printer5",
+  //     fileName: "Printed File Name 5",
+  //     pageCount: 123,
+  //     date: "Print Date",
+  //     time: "Print Time",
+  //   },
+  //   {
+  //     studentId: "2115307",
+  //     printerId: "Printer6",
+  //     fileName: "Printed File Name 6",
+  //     pageCount: 123,
+  //     date: "Print Date",
+  //     time: "Print Time",
+  //   },
+  //   {
+  //     studentId: "2115308",
+  //     printerId: "Printer7",
+  //     fileName: "Printed File Name 7",
+  //     pageCount: 123,
+  //     date: "Print Date",
+  //     time: "Print Time",
+  //   },
+  // ];
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/user/history")
+      .then((result) => {
+        // result.data.map((r) => {
+        //   setRecords([...r]);
+        // });
+        console.log(result.data);
+        setRecords(result.data);
+        // console.log(records);
+        // setEmployee(result.data.Result[0])
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  
   // TODO: Handle filter and search????
   return (
     <div className="h-full w-full">
@@ -152,12 +169,12 @@ const HistoryPageStudent = () => {
           {records.map((record, index) => (
             <HistoryRecord
               key={index}
-              printerId={record.printerId}
-              fileName={record.fileName}
-              date={record.date}
-              startTime={record.time}
-              endTime={record.time}
-              pageCount={record.pageCount}
+              printerId={record.printer_id}
+              fileName={record.file_name}
+              date={record.printing_date}
+              startTime={record.start_time}
+              // endTime={record}
+              pageCount={record.numOfPage}
             />
           ))}
         </div>
