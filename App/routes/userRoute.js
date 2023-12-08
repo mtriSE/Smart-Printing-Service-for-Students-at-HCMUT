@@ -18,24 +18,40 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
+
+
 //print a document
+router.get("/printing", printingController.get_enabled_printer_list);
+
 router.post("/printing/upload", upload.single("file"), (req, res) => {
   // console.log(req.file);
   res.send(req.file);
 });
-router.get("/printing", printingController.get_enabled_printer_list);
 
 router.post(
   "/printing/configuration",
   configurationController.configure_printing
 );
+//---------------------------------------
+// view printing history 
 
-// view printing history -> almost complete
+// view my history 
 router.get(
-  "/history/:start_date/:end_date",
-  historyController.get_printing_history
+  "/history/student/",
+  historyController.getMyHistory,
 );
-router.get("/history", historyController.get_printing_history);
+// view my hisotory from printer
+router.post(
+  "/history/printer/:printerid",
+  historyController.getPrinter,
+);
+// view my history between from to
+router.post(
+  "/history/time",
+  historyController.getMyHistoryByTime,
+);
+//
+// router.get("/history", historyController.get_printing_history);
 
 //buy more page -> almost complete
 router.get("/page", pageController.get_page_num);
