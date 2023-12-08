@@ -25,13 +25,17 @@ router.post(
   "/printing/configuration",
   configurationController.configure_printing
 );
+//---------------------------------------
+// view printing history
 
-// view printing history -> almost complete
-router.get(
-  "/history/:start_date/:end_date",
-  historyController.get_printing_history
-);
-router.get("/history", historyController.get_printing_history);
+// view my history
+router.get("/history/student/", historyController.getMyHistory);
+// view my hisotory from printer
+router.post("/history/printer/:printerid", historyController.getPrinter);
+// view my history between from to
+router.post("/history/time", historyController.getMyHistoryByTime);
+//
+// router.get("/history", historyController.get_printing_history);
 
 //buy more page -> almost complete
 router.get("/page", pageController.get_page_num);

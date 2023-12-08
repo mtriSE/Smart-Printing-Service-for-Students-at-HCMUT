@@ -82,7 +82,7 @@ class HistoryModel {
       }
     }
   }
-
+  // ptho1504
   create_printing_history(
     student_id,
     printer_id,
@@ -114,6 +114,108 @@ class HistoryModel {
         }
       }
     );
+  }
+  getAll(result) {
+    const sql = "SELECT * from history";
+    con.query(sql, (err, res) => {
+      if (err) {
+        result(null);
+      } else {
+        result(res);
+      }
+    });
+  }
+  getByStudentId(studentid, result) {
+    const sql = "SELECT * from history where `student_id` = ? ";
+    con.query(sql, [studentid], (err, res) => {
+      if (err) {
+        result(null);
+      } else {
+        result(res);
+      }
+    });
+  }
+  getByPrinterId(printerid, result) {
+    const sql = "SELECT * from history where `printer_id` = ?";
+    con.query(sql, [printerid], (err, res) => {
+      if (err) {
+        result(null);
+      } else {
+        result(res);
+      }
+    });
+  }
+  getStuPri_printing_history(studentid, printerid, result) {
+    const sql =
+      "SELECT * from history where `student_id` = ? AND `printer_id` = ?";
+    con.query(sql, [studentid, printerid], (err, res) => {
+      if (err) {
+        result(null);
+      } else {
+        // console.log(res);
+
+        result(res);
+      }
+    });
+  }
+
+  getHistoryByTime(data, result) {
+    const from = data.from_day;
+    const to = data.to_day;
+
+    const sql = "SELECT * from history where `printing_date` BETWEEN ? AND  ?";
+    con.query(sql, [from, to], (err, res) => {
+      if (err) {
+        result(null);
+      } else {
+        // console.log(res);
+        result(res);
+      }
+    });
+  }
+
+  getHistoryByTimefromStudent(studentid, data, result) {
+    const from = data.from_day;
+    const to = data.to_day;
+
+    const sql =
+      "SELECT * from history where `student_id` = ? AND `printing_date` BETWEEN ? AND  ?";
+    con.query(sql, [studentid, from, to], (err, res) => {
+      if (err) {
+        result(null);
+      } else {
+        // console.log(studentid,from,to);
+        result(res);
+      }
+    });
+  }
+  getHistoryByTimefromPrinter(printerid, data, result) {
+    const from = data.from_day;
+    const to = data.to_day;
+    const sql =
+      "SELECT * from history where printer_id = ? AND `printing_date` BETWEEN ? AND  ?";
+    con.query(sql, [printerid, from, to], (err, res) => {
+      if (err) {
+        result(null);
+      } else {
+        // console.log(res);
+        result(res);
+      }
+    });
+  }
+  getYourPrinter(studentid, printerid, result) {
+    const sql =
+      "SELECT * from history where `printer_id` = ? AND `student_id` = ?";
+    con.query(sql, [printerid, studentid], (err, res) => {
+      if (err) {
+        result(null);
+        
+      } else {
+        
+        result(res);
+        // return result(res);
+      }
+    });
   }
 }
 

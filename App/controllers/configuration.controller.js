@@ -36,10 +36,10 @@ class ConfigurationController {
     var page_num = req.body.page_num; // '1,2-3,4-8'
     var page_constraint = req.body.page_constraint; // odd,even,all
     var page_size = req.body.page_size; // A3,A4
-    var student_id = req.body.student_id;
+    const student_id = req.bknetid.split("A")[1];
 
     // calculate page count
-    if (empty(page_num)) {
+    if (page_num == "") {
       page_count = "1-20";
     }
     var page_count = 0;

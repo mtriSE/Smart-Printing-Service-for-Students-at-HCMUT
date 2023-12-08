@@ -13,6 +13,15 @@ class ConfigurationModel {
       }
     );
   }
+  // read_configuration(result) {
+  //   con.query("SELECT * FROM configuration", function (err, configuration) {
+  //     if (err) {
+  //       result(null);
+  //     } else {
+  //       result(configuration);
+  //     }
+  //   });
+  // }
 
   update_configuration(default_date, default_page, result) {
     con.query(
@@ -56,5 +65,4 @@ class ConfigurationModel {
     );
   }
 }
-
 module.exports = new ConfigurationModel();
