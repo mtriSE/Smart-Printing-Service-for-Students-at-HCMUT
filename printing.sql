@@ -89,12 +89,8 @@ CREATE TABLE `file_type` (
 --
 
 INSERT INTO `file_type` (`file_type`, `is_check`) VALUES
-('.abc', 1),
-('.bkel', 1),
 ('.doc', 0),
 ('.docx', 1),
-('.img', 0),
-('.msx', 1),
 ('.pdf', 1);
 
 -- --------------------------------------------------------

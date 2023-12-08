@@ -36,7 +36,7 @@ class ConfigurationModel {
   }
   read_configuration(result) {
     let sql1 = "SELECT default_page_num, default_date FROM configuration";
-    let sql2 = "SELECT file_type from file_type where is_check = 1";
+    let sql2 = "SELECT * from file_type";
     let config = {
       default_page_num: null,
       default_date: null,
@@ -57,7 +57,8 @@ class ConfigurationModel {
           } else {
             // config.file_type = res[0].file_type;
             // result(config);
-            config.file_type = res.map((row) => row.file_type);
+            // console.log(res);
+            config.file_type = res;
             result(config);
           }
         });
@@ -96,8 +97,8 @@ function updateFileType(file_type, callback) {
   // Use a counter to keep track of the number of queries executed
   let queriesExecuted = 0;
   file_type.map((f) => {
-    let sql = "UPDATE file_type SET is_check = 1 WHERE `file_type` = ?";
-    con.query(sql, [f], (err, result) => {
+    let sql = "UPDATE file_type SET `is_check` = ? WHERE `file_type` = ?";
+    con.query(sql, [f.is_check, f.file_type], (err, result) => {
       // Increment the counter after each query execution
       queriesExecuted++;
 
