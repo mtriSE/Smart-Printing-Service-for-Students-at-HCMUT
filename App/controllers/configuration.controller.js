@@ -6,7 +6,7 @@ const student = require("../models/student.model");
 // const countPages = require("page-count");
 
 class ConfigurationController {
-  async check_valid_file(req, res) {
+  check_valid_file(req, res) {
     var file = req.file;
     res.json(file);
     // const docxBuffer = readFileSync(file.path);
@@ -27,7 +27,7 @@ class ConfigurationController {
     // });
   }
 
-  configure_printing(req, res) {
+  async configure_printing(req, res) {
     // post
     var file_name = req.body.file_name;
     var printer_id = req.body.printer_id;
@@ -81,15 +81,17 @@ class ConfigurationController {
 
     let current_page;
     //check page_count < current_page
-    student.read_current_page_num(student_id, function (cur_page) {
+    await student.read_current_page_num(student_id, function (cur_page) {
       if (cur_page) {
-        global.current_page = cur_page[0]["current_page"];
+        current_page = cur_page;
       } else {
         res.status(500).json({ error: "cannot get current page num" });
       }
     });
 
-    res.json(current_page);
+    setTimeout(function () {
+      res.json(current_page);
+    }, 100);
 
     // if (page_count > current_page) {
     //   res.json({ message: "current to print > current page" });
@@ -132,7 +134,17 @@ class ConfigurationController {
     // }
   }
 
-  config(req, res) {}
+  async config(req, res) {
+    try {
+      const file_type = await configuration.read_file_type();
+      const config = await configuration.read_configuration();
+
+      res.json({ file_type, config });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "cannot get configuration" });
+    }
+  }
 }
 
 module.exports = new ConfigurationController();

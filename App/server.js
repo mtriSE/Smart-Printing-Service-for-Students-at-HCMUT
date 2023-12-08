@@ -1,25 +1,24 @@
 const express = require("express");
 const morgan = require("morgan");
-const cors = require('cors');
-const multer = require('multer');
+const cors = require("cors");
+const multer = require("multer");
 const app = express();
 
-const adminRoute = require('./routes/adminRoute.js');
-const userRoute = require('./routes/userRoute.js');
-const signin = require('./routes/authAPI/login.js');
+const adminRoute = require("./routes/adminRoute.js");
+const userRoute = require("./routes/userRoute.js");
+const signin = require("./routes/authAPI/login.js");
 
-const PORT = 3000
-
+const PORT = 3000;
 
 // Get database sequelize
-const db = require('./models/index.js');
+const db = require("./models/index.js");
 
 // Use morgan middleware as a logger
 app.use(morgan("dev")); // "dev": <method> <path> <status_code> <time_response>
 
 // Enable CORS
 var corsOptions = {
-  origin: "http://localhost:5173"
+  origin: "http://localhost:5173",
 };
 app.use(cors(corsOptions));
 
@@ -30,18 +29,15 @@ app.use(express.json());
 // parse body req as form-data
 app.use(multer().array());
 
-
-app.get('/',(req,res)=>{
+app.get("/", (req, res) => {
   res.send({
-    hello:"Hi"
-  })
-  
-})
+    hello: "Hi",
+  });
+});
 
-app.use('/user', userRoute);
-app.use('/admin', adminRoute);
-app.use('/auth', signin);
-
+app.use("/user", userRoute);
+app.use("/admin", adminRoute);
+app.use("/auth", signin);
 
 app.listen(PORT, () => {
   console.log(`App start to listen at http://localhost:${PORT}`);

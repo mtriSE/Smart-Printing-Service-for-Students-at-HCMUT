@@ -7,16 +7,24 @@ const historyController = require("../controllers/history.controller");
 
 const router = express.Router();
 
-const storage = multer.memoryStorage(); // Store files in memory (you can change this based on your needs)
-const upload = multer({ storage: storage });
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "../uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+var upload = multer({ storage: storage });
 
 //print a document
+router.post("/printing/upload", upload.single("file"), (req, res) => {
+  // console.log(req.file);
+  res.send(req.file);
+});
 router.get("/printing", printingController.get_enabled_printer_list);
-router.post(
-  "/printing/upload",
-  upload.single("file"),
-  configurationController.check_valid_file
-);
+
 router.post(
   "/printing/configuration",
   configurationController.configure_printing
