@@ -1,10 +1,13 @@
 const mysql = require('mysql');
 const config = require('../config/db.config.js');
 
+process.env.TZ = "UTC";
+
 const connection = mysql.createConnection({
     host: config.HOST,
     user: config.USER,
-    database: config.DB
+    database: config.DB,
+    multipleStatements: true
 });
 
 connection.connect(err => {
