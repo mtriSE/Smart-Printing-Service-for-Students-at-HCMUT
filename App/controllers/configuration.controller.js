@@ -134,15 +134,44 @@ class ConfigurationController {
     // }
   }
 
-  async config(req, res) {
+  async getConfig(req, res) {
     try {
-      const file_type = await configuration.read_file_type();
-      const config = await configuration.read_configuration();
-
-      res.json({ file_type, config });
+      const config = await new Promise((resolve, reject) => {
+        configuration.read_configuration((result) => {
+          if (result) {
+            resolve(result);
+          } else {
+            reject(new Error("Failed to get configuration"));
+          }
+        });
+      });
+      res.json(config);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "cannot get configuration" });
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+
+  async addConfig(req, res) {
+    try {
+      const { default_page_num, default_date, file_type } = req.body;
+      const data = { default_page_num, default_date };
+
+      // console.log(data);
+      console.log(file_type);
+      configuration.add_config(data, file_type, (err, result) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+
+        // Handle successful result if needed
+        // console.log(result);
+        res.status(200).json({ message: "Configuration added successfully" });
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
   }
 }
