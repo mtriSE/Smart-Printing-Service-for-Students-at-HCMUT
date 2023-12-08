@@ -1,30 +1,47 @@
 const express = require("express");
 const morgan = require("morgan");
-const bodyParser = require("body-parser");
-const path = require("path");
+const cors = require('cors');
+const multer = require('multer');
 const app = express();
-const PORT = 3000;
 
-const adminRoute = require("./routes/adminRoute.js");
-const userRoute = require("./routes/userRoute.js");
+const adminRoute = require('./routes/adminRoute.js');
+const userRoute = require('./routes/userRoute.js');
+const signin = require('./routes/authAPI/login.js');
+
+const PORT = 3000
+
+
+// Get database sequelize
+const db = require('./models/index.js');
 
 // Use morgan middleware as a logger
-// "dev": <method> <path> <status_code> <time_response>
-app.use(morgan("dev"));
+app.use(morgan("dev")); // "dev": <method> <path> <status_code> <time_response>
 
-//use body-parser
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// Enable CORS
+var corsOptions = {
+  origin: "http://localhost:5173"
+};
+app.use(cors(corsOptions));
 
-// Set up view engine to render template. My templates have been stored at ./views (*.ejs)
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));
+// parse body req as json
+app.use(express.json());
+// parse body req as form-data
+app.use(multer().array());
 
-// set up place for 'serving static files'. https://expressjs.com/en/starter/static-files.html
-app.use(express.static("static/"));
 
-app.use("/user", userRoute);
-app.get("/admin", adminRoute);
+app.get('/',(req,res)=>{
+  res.send({
+    hello:"Hi"
+  })
+  
+})
+
+app.use('/user', userRoute);
+app.use('/admin', adminRoute);
+app.use('/auth', signin);
+
 
 app.listen(PORT, () => {
   console.log(`App start to listen at http://localhost:${PORT}`);
