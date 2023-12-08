@@ -51,7 +51,6 @@ const signin = (req, res, next) => {
 
 const verifyUser = (req, res, next) => {
   const token = req.cookies.token;
-
   if (token) {
     jwt.verify(token, "jwt_secret_key", (err, decoded) => {
       if (err) return res.json({ Status: false, Error: "Wrong token" });
@@ -68,7 +67,7 @@ const verifyUser = (req, res, next) => {
       }
     });
   } else {
-    return res.json({ Status: false, Error: "Not authenticated" });
+    return res.json({ Status: false, Error: "Not authenticated user" });
   }
 };
 
@@ -91,7 +90,7 @@ const verifyAdmin = (req, res, next) => {
       }
     });
   } else {
-    return res.json({ Status: false, Error: "Not authenticated" });
+    return res.json({ Status: false, Error: "Not authenticated admin" });
   }
 };
 

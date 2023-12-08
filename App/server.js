@@ -2,7 +2,6 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const multer = require("multer");
-const cors = requier('cors');
 const app = express();
 const bodyParser = require('body-parser')
 const adminRoute = require("./routes/adminRoute.js");
