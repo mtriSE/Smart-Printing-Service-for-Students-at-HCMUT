@@ -29,18 +29,18 @@ class ConfigurationController {
 
   configure_printing(req, res) {
     // post
-    var file_name = "CNPM.pdf";
+    var file_name = "CNPM.pdf";// modify
     var printer_id = req.body.printer_id;
     var copies_num = req.body.copies_num; // 1,2,3,...
     var side = req.body.side; // 1,2
     var page_num = req.body.page_num; // '1,2-3,4-8'
     var page_constraint = req.body.page_constraint; // odd,even,all
     var page_size = req.body.page_size; // A3,A4
-    var student_id = req.body.student_id;
+    var student_id = req.body.student_id;// modify
 
     // calculate page count
-    if (empty(page_num)) {
-      page_count = "1-20";
+    if (page_num=='') {
+      page_count = "1-20";// modify
     }
     var page_count = 0;
     var page_num_array = page_num.split(",");
