@@ -41,7 +41,6 @@ const HistoryPageSPSO = () => {
       .then((json) => setRecords(json));
   }, []);
 
-  // TODO: Handle filter and search????
   return (
     <div className="h-full w-full">
       {/* Some stuff on top */}
@@ -92,7 +91,6 @@ const HistoryPageSPSO = () => {
           </div>
 
           {/* Date Range Picker */}
-          {/* TODO: Handle Date Data? */}
           <div className="flex basis-5/12 items-center justify-evenly text-center">
             <Datepicker
               id="start-date"
@@ -188,7 +186,6 @@ const HistoryPageSPSO = () => {
           </div>
         </div>
         <div>
-          {/* TODO: key - index? */}
           {records.map((record, index) => (
             <HistoryRecord
               key={index}

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "flowbite-react";
 import { FaRegCheckCircle } from "react-icons/fa";
 
-// TODO: Handle form action system configuration
 const InputField = ({ id, title, value, placeholder, handleChange }) => {
   return (
     <div className="flex flex-col">
@@ -69,7 +68,7 @@ const SystemConfigPage = () => {
       <div className="py-4 text-center text-3xl font-medium">
         Cài đặt hệ thống
       </div>
-      {/* TODO: Handle form change config */}
+      
       <form className="flex flex-col justify-around px-8 text-2xl">
         <InputField
           id={"pages"}

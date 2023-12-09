@@ -92,7 +92,7 @@ const BuyPage = () => {
               <div className="text-center">
                 <FaRegCheckCircle className="mx-auto mb-4 h-14 w-14 text-green" />
                 <h3 className="mb-5 text-2xl font-normal text-gray-500 dark:text-gray-400">
-                  Tặng thành công
+                  Mua thành công
                 </h3>
                 <div className="flex justify-center gap-4 text-2xl">
                   <Button color="info" onClick={() => setOpenModal(false)}>

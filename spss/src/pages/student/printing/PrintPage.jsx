@@ -6,61 +6,61 @@ const PrintPage = () => {
   const printerList = [
     {
       name: "Printer 0",
-      faNum: "CS2",
+      campus: "CS2",
       building: "H0",
       floor: 0,
     },
     {
       name: "Printer 1",
-      faNum: "CS2",
+      campus: "CS2",
       building: "H1",
       floor: 1,
     },
     {
       name: "Printer 2",
-      faNum: "CS2",
+      campus: "CS2",
       building: "H2",
       floor: 2,
     },
     {
       name: "Printer 3",
-      faNum: "CS2",
+      campus: "CS2",
       building: "H3",
       floor: 3,
     },
     {
       name: "Printer 4",
-      faNum: "CS2",
+      campus: "CS2",
       building: "H4",
       floor: 4,
     },
     {
       name: "Printer 5",
-      faNum: "CS2",
+      campus: "CS2",
       building: "H5",
       floor: 5,
     },
     {
       name: "Printer 6",
-      faNum: "CS2",
+      campus: "CS2",
       building: "H6",
       floor: 6,
     },
     {
       name: "Printer 7",
-      faNum: "CS2",
+      campus: "CS2",
       building: "H7",
       floor: 7,
     },
     {
       name: "Printer 8",
-      faNum: "CS2",
+      campus: "CS2",
       building: "H8",
       floor: 8,
     },
     {
       name: "Printer 9",
-      faNum: "CS2",
+      campus: "CS2",
       building: "H9",
       floor: 9,
     },
@@ -88,7 +88,7 @@ const PrintPage = () => {
           <PrinterSelect
             key={index}
             name={printer.name}
-            faNum={printer.faNum}
+            campus={printer.campus}
             building={printer.building}
             floor={printer.floor}
           />

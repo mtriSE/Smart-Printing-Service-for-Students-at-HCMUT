@@ -1,7 +1,7 @@
 const express = require("express");
 const configurationController = require("../controllers/configuration.controller");
 const historyController = require("../controllers/history.controller");
-// const manageController = require("../controllers/manage.controller")
+const manageController = require("../controllers/manage.controller")
 const router = express.Router();
 
 // api -> controller
