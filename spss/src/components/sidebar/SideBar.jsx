@@ -18,25 +18,25 @@ const SideBar = ({ userType = "student" }) => {
         id: "home",
         icon: <Home />,
         text: "Trang chủ",
-        to: "/",
+        to: "/student/home",
       },
       {
         id: "printer",
         icon: <Printer />,
         text: "In tài liệu",
-        to: "/print",
+        to: "/student/print",
       },
       {
         id: "clock",
         icon: <Clock />,
         text: "Lịch sử in",
-        to: "/historyStudent",
+        to: "/student/historyStudent",
       },
       {
         id: "cart",
         icon: <Cart />,
         text: "Mua trang",
-        to: "/buy",
+        to: "/student/buy",
       },
     ];
     const spsoTabList = [
@@ -44,25 +44,25 @@ const SideBar = ({ userType = "student" }) => {
         id: "home",
         icon: <Home />,
         text: "Trang chủ",
-        to: "/",
+        to: "/spso/home",
       },
       {
         id: "settings",
         icon: <Settings />,
         text: "Cài đặt",
-        to: "/config",
+        to: "/spso/config",
       },
       {
         id: "printer",
         icon: <Printer />,
         text: "Quản lý máy in",
-        to: "/manage",
+        to: "/spso/manage",
       },
       {
         id: "clock",
         icon: <Clock />,
         text: "Xem lịch sử in",
-        to: "/historySPSO",
+        to: "/spso/historySPSO",
       },
     ];
 

@@ -22,7 +22,7 @@ const PrintersPage = () => {
         <div className="pb-2 pt-4 text-center text-3xl">Danh sách máy in</div>
         <Link
           className="my-4 block w-fit rounded-lg bg-myblue px-4 py-2 text-xl text-white"
-          to={"/manage/addPrinter"}
+          to={"./addPrinter"}
         >
           Thêm máy in
         </Link>

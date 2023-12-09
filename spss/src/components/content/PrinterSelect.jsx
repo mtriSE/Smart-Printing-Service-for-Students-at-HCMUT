@@ -11,7 +11,7 @@ const PrinterSelect = ({ name, campus, building, floor }) => {
         <div className="basis-1/5 text-center">{floor}</div>
       </div>
       <Link
-        to="/print/upload"
+        to="./upload"
         className="mr-4 rounded-lg bg-myblue p-2 text-white"
       >
         Chọn máy in

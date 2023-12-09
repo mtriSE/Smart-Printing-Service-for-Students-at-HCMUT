@@ -32,7 +32,7 @@ const UploadPage = () => {
           Quay lại
         </Link>
         <Link
-          to={"/print/settings"}
+          to={"./../settings"}
           className="ml-4 rounded-lg bg-myblue px-4 py-2 text-white"
         >
           Tiếp tục

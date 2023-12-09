@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { IoAdd } from "react-icons/io5";
+import React, { useContext, useEffect, useState } from "react";
+import { FaPowerOff } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "src/auth/AuthWrapper";
 
 const userFormat = {
   student:
@@ -7,8 +9,26 @@ const userFormat = {
   spso: "w-60 text-white select-none",
 };
 
+function getCookie(cName) {
+  const name = cName + "=";
+  const cDecoded = decodeURIComponent(document.cookie); //to be careful
+  const cArr = cDecoded.split("; ");
+  let res;
+  cArr.forEach((val) => {
+    if (val.indexOf(name) === 0) res = val.substring(name.length);
+  });
+  return res;
+}
+
 const NavBar = ({ userType = "spso", name = "Nguyễn Đại Tiến" }) => {
   const [pageCount, setPageCount] = useState();
+  const AuthData = useContext(AuthContext);
+  const { logout } = AuthData;
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   useEffect(() => {
     if (userType === "student") {
@@ -21,7 +41,6 @@ const NavBar = ({ userType = "spso", name = "Nguyễn Đại Tiến" }) => {
     }
   }, []);
 
-  console.log(pageCount);
   return (
     <div className="flex basis-[130px] flex-col">
       <div className="flex h-[60px] items-center justify-between bg-myblue text-xl text-white">
@@ -29,9 +48,12 @@ const NavBar = ({ userType = "spso", name = "Nguyễn Đại Tiến" }) => {
           <img src="/src/assets/images/logo.png" alt="Logo" />
           <div>HCMUT_SPSS</div>
         </div>
-        {/* TODO: Change to DropDown? */}
+        {/* TODO: Handle Logout */}
         <div className="flex h-full items-center bg-light-myblue px-4">
-          {name}
+          <div>{getCookie("account_id")}</div>
+          <button className="mx-2" onClick={handleLogout}>
+            <FaPowerOff />
+          </button>
         </div>
       </div>
       <div className="flex h-20 items-center border-b border-mygray bg-white">

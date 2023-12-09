@@ -26,11 +26,7 @@ const signin = (req, res, next) => {
       }
       const role = data.role;
       const bknetid = data.account_id;
-
-      // const payload = {
-      //   bknetid: req.body.bknetid,
-      //   role: req.body.role,
-      // };
+      // console.log(data);
 
       const token = jwt.sign(
         { role: role, bknetid: bknetid },
@@ -39,10 +35,10 @@ const signin = (req, res, next) => {
       );
 
       res.cookie("token", token);
-      console.log(token);
+      // console.log(token);
       res.status(200).send({
-        account_id: req.body.account_id,
-        role: req.body.role,
+        account_id: data.account_id,
+        role: data.role,
         accessToken: token,
       });
     }

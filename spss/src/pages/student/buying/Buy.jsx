@@ -18,12 +18,12 @@ const Buy = () => {
       <BuyPageButton
         image={"/src/assets/images/buy.png"}
         text={"Mua Trang"}
-        to={"/buy/buyPage"}
+        to={"./buyPage"}
       />
       <BuyPageButton
         image={"/src/assets/images/gift.png"}
         text={"Tặng Trang"}
-        to={"/buy/giftPage"}
+        to={"./giftPage"}
       />
     </div>
   );

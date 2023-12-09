@@ -80,7 +80,7 @@ const BuyPage = () => {
             type={"confirm"}
             handleClick={handleClick}
           />
-          <MyButton to={"/buy"} text={"Quay lại"} type={"cancel"} />
+          <MyButton to={"./.."} text={"Quay lại"} type={"cancel"} />
           <Modal
             show={openModal}
             size="md"

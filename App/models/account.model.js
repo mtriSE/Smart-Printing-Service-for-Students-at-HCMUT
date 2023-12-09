@@ -55,7 +55,7 @@ Account.findById = (id, result) => {
         }
         // Found 
         if (res.length) {
-            console.log("found account: ", res[0]);
+            // console.log("found account: ", res[0]);
             // console.log(res);
             result(null,res[0]);
             return;
