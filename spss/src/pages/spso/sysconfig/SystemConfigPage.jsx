@@ -22,8 +22,8 @@ const InputField = ({ id, title, value, placeholder, handleChange }) => {
 const SystemConfigPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [config, setConfig] = useState({
-    default_page_num: null,
-    default_date: null,
+    default_page_num: 0,
+    default_date: 1,
   });
 
   const [fileTypes, setFileTypes] = useState([]);
@@ -62,6 +62,8 @@ const SystemConfigPage = () => {
       });
     }
   };
+
+  console.log(config);
 
   return (
     <div className="mx-auto my-auto min-h-fit w-1/2 rounded-lg border-2">
@@ -119,11 +121,11 @@ const SystemConfigPage = () => {
               setOpenModal(true),
                 fetch("http://localhost:3000/admin/configuration/add", {
                   method: "POST",
+                  credentials: "include",
                   headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                   },
-                  credentials: "include",
                   body: JSON.stringify({
                     ...config,
                     file_type: fileTypes,

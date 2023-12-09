@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Button, Modal } from "flowbite-react";
+import { FaRegCheckCircle } from "react-icons/fa";
 
 const InputField = ({ id, title, placeholder, handleChange }) => {
   return (
@@ -18,6 +20,7 @@ const InputField = ({ id, title, placeholder, handleChange }) => {
 };
 
 const AddPrinterPage = () => {
+  const [openModal, setOpenModal] = useState(false);
   const [data, setData] = useState({
     printer_id: null,
     printer_name: null,
@@ -88,6 +91,7 @@ const AddPrinterPage = () => {
             className="rounded-lg bg-myblue px-8 py-2 text-white"
             type="submit"
             onClick={(e) => {
+              setOpenModal(true);
               fetch("http://localhost:3000/admin/manage/add", {
                 method: "POST",
                 credentials: "include",
@@ -102,6 +106,27 @@ const AddPrinterPage = () => {
           >
             Xác nhận
           </button>
+          <Modal
+            show={openModal}
+            size="md"
+            onClose={() => setOpenModal(false)}
+            popup
+          >
+            <Modal.Header />
+            <Modal.Body>
+              <div className="text-center">
+                <FaRegCheckCircle className="mx-auto mb-4 h-14 w-14 text-green" />
+                <h3 className="mb-5 text-2xl font-normal text-gray-500 dark:text-gray-400">
+                  Cập nhật thành công
+                </h3>
+                <div className="flex justify-center gap-4 text-2xl">
+                  <Button color="info" onClick={() => setOpenModal(false)}>
+                    Xác nhận
+                  </Button>
+                </div>
+              </div>
+            </Modal.Body>
+          </Modal>
         </div>
       </form>
     </div>
