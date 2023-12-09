@@ -4,7 +4,7 @@ import SPSOApp from "src/SPSOApp.jsx";
 import StudentApp from "./StudentApp.jsx";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
-import Login from "src/pages/general/Login.jsx";
+import Login from "src/pages/general/login/Login.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

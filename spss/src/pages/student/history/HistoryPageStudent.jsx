@@ -1,5 +1,5 @@
 import { Datepicker } from "flowbite-react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const HistoryRecord = ({
   printerId,
@@ -22,67 +22,19 @@ const HistoryRecord = ({
 };
 
 const HistoryPageStudent = () => {
-  // TODO: Fetch API to get history records
-  const records = [
-    {
-      studentId: "2115302",
-      printerId: "Printer1",
-      fileName: "Printed File Name 1",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115303",
-      printerId: "Printer2",
-      fileName: "Printed File Name 2",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115304",
-      printerId: "Printer3",
-      fileName: "Printed File Name 3",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115305",
-      printerId: "Printer4",
-      fileName: "Printed File Name 4",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115306",
-      printerId: "Printer5",
-      fileName: "Printed File Name 5",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115307",
-      printerId: "Printer6",
-      fileName: "Printed File Name 6",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-    {
-      studentId: "2115308",
-      printerId: "Printer7",
-      fileName: "Printed File Name 7",
-      pageCount: 123,
-      date: "Print Date",
-      time: "Print Time",
-    },
-  ];
+  const [records, setRecords] = useState([]);
+  const [date, setDate] = useState({ from_day: null, to_day: null, });
 
-  // TODO: Handle filter and search????
+  useEffect(() => {
+    fetch("http://localhost:3000/user/history/student", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((json) => setRecords(json));
+  }, []);
+
+  // console.log(records);
   return (
     <div className="h-full w-full">
       {/* Some stuff on top */}
@@ -93,18 +45,41 @@ const HistoryPageStudent = () => {
         </div>
         <form className="flex w-full items-center justify-between bg-light-mygray py-1 text-lg">
           {/* Date Range Picker */}
-          {/* TODO: Handle Date Data? */}
           <div className="flex basis-7/12 items-center justify-evenly text-center">
             <Datepicker
               id="start-date"
               title="Ngày bắt đầu"
-              onSelectedDateChanged={(date) => console.log(date)}
+              onSelectedDateChanged={(date) => {
+                const day = date.getDate();
+                const month = date.getMonth() + 1;
+                const year = date.getFullYear();
+                const fromDate = year + "-" + month + "-" + day;
+                console.log(`From Date: ${fromDate}`)
+                setDate((prev) => {
+                  return {
+                    ...prev,
+                    from_day: fromDate,
+                  }
+                })
+              }}
             />
             <div>to</div>
             <Datepicker
               id="end-date"
               title="Ngày kết thúc"
-              onSelectedDateChanged={(date) => console.log(date)}
+              onSelectedDateChanged={(date) => {
+                const day = date.getDate();
+                const month = date.getMonth() + 1;
+                const year = date.getFullYear();
+                const toDate = year + "-" + month + "-" + day;
+                console.log(`To Date: ${toDate}`)
+                setDate((prev) => {
+                  return {
+                    ...prev,
+                    to_day: toDate,
+                  }
+                })
+              }}
             />
           </div>
 
@@ -113,7 +88,29 @@ const HistoryPageStudent = () => {
             <button
               className="my-1 rounded-lg bg-myblue px-12 py-1 text-white hover:bg-dark-myblue"
               type="submit"
-              onClick={(e) => e.preventDefault()}
+              /* 
+              {
+                from_day: ...,
+                to_day: ...,
+                student_id: ...,
+                printer_id: ...,
+              }
+              */
+              onClick={(e) => {
+                console.log(date);
+                fetch("http://localhost:3000/user/history/time", {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(date),
+                })
+                  .then(response => response.json())
+                  .then(json => setRecords(json))
+                e.preventDefault();
+              }}
             >
               Find
             </button>
@@ -148,16 +145,15 @@ const HistoryPageStudent = () => {
           </div>
         </div>
         <div>
-          {/* TODO: key - index? */}
           {records.map((record, index) => (
             <HistoryRecord
               key={index}
-              printerId={record.printerId}
-              fileName={record.fileName}
-              date={record.date}
-              startTime={record.time}
-              endTime={record.time}
-              pageCount={record.pageCount}
+              printerId={record.printer_id}
+              fileName={record.file_name}
+              date={record.printing_date}
+              startTime={record.start_time}
+              endTime={record.end_time}
+              pageCount={record.numOfPage}
             />
           ))}
         </div>

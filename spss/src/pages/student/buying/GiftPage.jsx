@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Button, Modal } from "flowbite-react";
+import { FaRegCheckCircle } from "react-icons/fa";
 
-const Button = ({ to, text, type }) => {
+const MyButton = ({ to, text, type, handleClick }) => {
   const bgColor = {
     confirm: "bg-myblue",
     cancel: "bg-myred",
@@ -10,15 +12,34 @@ const Button = ({ to, text, type }) => {
     <Link
       to={to}
       className={`rounded-lg px-8 py-2 text-2xl text-white ${bgColor[type]}`}
+      onClick={handleClick}
     >
       {text}
     </Link>
   );
 };
 
-// TODO: Add Route for buttons, handle data from input field
 const GiftPage = () => {
   const [pages, setPages] = useState(0);
+  const [studentId, setStudentId] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleClick = () => {
+    setOpenModal(true);
+    fetch("http://localhost:3000/user/page/buy", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        student_id: studentId,
+        page_num: Number(pages),
+      }),
+    });
+  };
+
   return (
     <div className="flex h-full w-full items-center justify-center bg-light-mygray">
       <form className="flex h-3/5 w-2/5 flex-col rounded-2xl bg-white">
@@ -64,15 +85,41 @@ const GiftPage = () => {
               name="studentId"
               id="studentId"
               placeholder="Nhập mã số sinh viên"
+              onChange={(e) => setStudentId(e.target.value)}
             />
           </div>
           <div></div>
         </div>
         {/* Buttons */}
         <div className="my-4 flex justify-evenly justify-self-end">
-          {/* TODO: Add route*/}
-          <Button to={"#"} text={"Xác nhận"} type={"confirm"} />
-          <Button to={"./.."} text={"Quay lại"} type={"cancel"} />
+          <MyButton
+            to={"#"}
+            text={"Xác nhận"}
+            type={"confirm"}
+            handleClick={handleClick}
+          />
+          <MyButton to={"./.."} text={"Quay lại"} type={"cancel"} />
+          <Modal
+            show={openModal}
+            size="md"
+            onClose={() => setOpenModal(false)}
+            popup
+          >
+            <Modal.Header />
+            <Modal.Body>
+              <div className="text-center">
+                <FaRegCheckCircle className="mx-auto mb-4 h-14 w-14 text-green" />
+                <h3 className="mb-5 text-2xl font-normal text-gray-500 dark:text-gray-400">
+                  Mua thành công
+                </h3>
+                <div className="flex justify-center gap-4 text-2xl">
+                  <Button color="info" onClick={() => setOpenModal(false)}>
+                    Xác nhận
+                  </Button>
+                </div>
+              </div>
+            </Modal.Body>
+          </Modal>
         </div>
       </form>
     </div>
