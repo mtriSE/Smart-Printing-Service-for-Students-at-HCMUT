@@ -27,16 +27,16 @@ class ConfigurationController {
     // });
   }
 
-  async configure_printing(req, res) {
+  configure_printing(req, res) {
     // post
-    var file_name = req.body.file_name;
+    var file_name = req.body.file_name; // modify
     var printer_id = req.body.printer_id;
-    var copies_num = req.body.copies_num;
-    var side = req.body.side;
-    var page_num = req.body.page_num;
-    var page_constraint = req.body.page_constraint;
-    var page_size = req.body.page_size;
-    var student_id = req.body.student_id;
+    var copies_num = req.body.copies_num; // 1,2,3,...
+    var side = req.body.side; // 1,2
+    var page_num = req.body.page_num; // '1,2-3,4-8'
+    var page_constraint = req.body.page_constraint; // odd,even,all
+    var page_size = req.body.page_size; // A3,A4
+    var student_id = req.bknetid.split("A")[1]; // modify
 
     // calculate page count
     var page_count = 0;
@@ -79,59 +79,90 @@ class ConfigurationController {
     }
     page_count *= Number(copies_num);
 
-    let current_page;
-    //check page_count < current_page
-    await student.read_current_page_num(student_id, function (cur_page) {
-      if (cur_page) {
-        current_page = cur_page;
+    setTimeout(function () {
+      let current_page;
+      //check page_count < current_page
+      student.read_current_page_num(student_id, function (cur_page) {
+        if (cur_page) {
+          current_page = cur_page;
+        } else {
+          res.status(500).json({ error: "cannot get current page num" });
+        }
+      });
+      if (page_count > current_page) {
+        res.json({ message: "current to print > current page" });
       } else {
-        res.status(500).json({ error: "cannot get current page num" });
+        //update current page
+        student.update_current_page_num(
+          student_id,
+          -page_count,
+          function (result) {
+            if (!result) {
+              res.status(500).json({ error: "cannot update current page" });
+            }
+          }
+        );
+
+        var printing_date = new Date();
+
+        var start_time = new Date();
+        start_time.setSeconds(start_time.getSeconds() - page_count);
+        var end_time = new Date();
+
+        //create history
+        history.create_printing_history(
+          student_id,
+          printer_id,
+          file_name,
+          start_time,
+          end_time,
+          page_count,
+          page_size,
+          printing_date,
+          function (result) {
+            if (result) {
+              res.json({ message: "printing completely" });
+            } else {
+              res.status(500).json({ error: "cannot create new history" });
+            }
+          }
+        );
+      }
+    }, 100);
+  }
+
+  get_configuration(req, res) {
+    configuration.read_configuration(function (configuration) {
+      if (configuration) {
+        res.json(configuration);
+      } else {
+        res.status(500).json({ error: "cannot read configuration" });
       }
     });
+  }
 
-    setTimeout(function () {
-      res.json(current_page);
-    }, 100);
+  set_configuration(req, res) {
+    var default_date = req.body.default_date;
+    var default_page = req.body.default_page;
+    configuration.update_configuration(
+      default_date,
+      default_page,
+      function (config) {
+        if (!config) {
+          res.status(500).json({ error: "cannot update configuration" });
+        }
+      }
+    );
 
-    // if (page_count > current_page) {
-    //   res.json({ message: "current to print > current page" });
-    // } else {
-    //   //update current page
-    //   student.update_current_page_num(
-    //     student_id,
-    //     -page_count,
-    //     function (result) {
-    //       if (!result) {
-    //         res.status(500).json({ error: "cannot update current page" });
-    //       }
-    //     }
-    //   );
-
-    //   var printing_date = new Date();
-
-    //   var start_time = new Date();
-    //   start_time.setSeconds(start_time.getSeconds() - page_count);
-    //   var end_time = new Date();
-
-    //   //create history
-    //   history.create_printing_history(
-    //     student_id,
-    //     printer_id,
-    //     file_name,
-    //     start_time,
-    //     end_time,
-    //     page_count,
-    //     page_size,
-    //     printing_date,
-    //     function (result) {
-    //       if (result) {
-    //         res.json({ message: "printing completely" });
-    //       } else {
-    //         res.status(500).json({ error: "cannot create new history" });
-    //       }
-    //     }
-    //   );
-    // }
+    var file_types = req.body.file_types;
+    // res.json(file_types);
+    configuration.update_file_type(file_types, function (file_type) {
+      if (file_type) {
+        res.json(file_type);
+      } else {
+        res.status(500).json({ error: "cannot update file_type" });
+      }
+    });
   }
 
   async getConfig(req, res) {

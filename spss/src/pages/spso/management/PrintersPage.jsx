@@ -14,8 +14,6 @@ const PrintersPage = () => {
       .then(json => setPrinters(json))
   }, [])
   
-  console.log(printers)
-
   return (
     <div className="px-20">
       <div>

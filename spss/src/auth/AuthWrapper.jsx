@@ -36,7 +36,7 @@ export const AuthWrapper = () => {
             // If successful, resolve the Promise with the user data
             document.cookie = "token=" + json.accessToken + "; Path=/;";
             document.cookie = "account_id=" + json.account_id + "; Path=/;";
-            document.cookie = "isAuthenticated=" + json.isAuthenticated + "; Path=/;";
+            document.cookie = "isAuthenticated=true; Path=/;";
             document.cookie = "role=" + json.role + "; Path=/;";
             setUser({
               account_id: json.account_id,

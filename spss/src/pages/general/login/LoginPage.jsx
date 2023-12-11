@@ -78,7 +78,6 @@ const LoginPage = () => {
           <a href="#" className="text-myblue">
             Quên mật khẩu?
           </a>
-          {/* TODO: Handle Login */}
           <button
             type="submit"
             className="rounded-lg bg-dark-myblue px-4 py-2 text-white"

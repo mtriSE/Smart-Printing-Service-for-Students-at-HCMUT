@@ -48,7 +48,6 @@ const NavBar = ({ userType = "spso", name = "Nguyễn Đại Tiến" }) => {
           <img src="/src/assets/images/logo.png" alt="Logo" />
           <div>HCMUT_SPSS</div>
         </div>
-        {/* TODO: Handle Logout */}
         <div className="flex h-full items-center bg-light-myblue px-4">
           <div>{getCookie("account_id")}</div>
           <button className="mx-2" onClick={handleLogout}>

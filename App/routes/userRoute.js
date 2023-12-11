@@ -24,7 +24,7 @@ var upload = multer({ storage: storage });
 router.get("/printing", printingController.get_enabled_printer_list);
 
 router.post("/printing/upload", upload.single("file"), (req, res) => {
-  // console.log(req.file);
+  
   res.send(req.file);
 });
 
