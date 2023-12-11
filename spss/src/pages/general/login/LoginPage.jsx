@@ -3,7 +3,7 @@ import { FaUser, FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "src/auth/AuthWrapper";
 
-const InputField = ({ id, icon, placeholder, handleChange }) => {
+const InputField = ({ id, type, icon, placeholder, handleChange }) => {
   return (
     <div className="m-6">
       <div className="relative">
@@ -11,7 +11,7 @@ const InputField = ({ id, icon, placeholder, handleChange }) => {
           {icon}
         </div>
         <input
-          type="text"
+          type={type}
           id={id}
           name={id}
           className="block w-full rounded-lg bg-light-yellow py-4 ps-12"
@@ -63,12 +63,14 @@ const LoginPage = () => {
         </div>
         <InputField
           id={"account_id"}
+          type={"text"}
           icon={<FaUser />}
           placeholder={"Tài khoản"}
           handleChange={handleInputChange}
         />
         <InputField
           id={"password"}
+          type={"password"}
           icon={<FaLock />}
           placeholder={"Mật khẩu"}
           handleChange={handleInputChange}
