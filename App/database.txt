@@ -1,5 +1,0 @@
-printer : printer_id, name, status, cs, tòa, tầng
-student : student_id, name, current_page, account_id
-account : account_id, password, role
-printingHistory : printer_id, student_id, start_time, end_time, file, page_num, page_type
-configuration : default_page_num, default_date, validFile_name
